@@ -10,6 +10,7 @@ import CategoriesIndex from './Components/Categories/Index.vue';
 import PostsIndex from './Components/Posts/Index.vue';
 import PostsCreate from './Components/Posts/Create.vue';
 import PostsEdit from './Components/Posts/Edit.vue';
+import TodoIndex from './Components/Todos/Index.vue';
 
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
     {path: '/posts/create', name: 'posts.create', component: PostsCreate},
     {path: '/posts/:id/edit', name: 'posts.edit', component: PostsEdit},
     {path: '/categories', name: 'categories.index', component: CategoriesIndex},
+    {path: '/todos', name: 'todos.index', component: TodoIndex},
 ];
 
 const router = createRouter({

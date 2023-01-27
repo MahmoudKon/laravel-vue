@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoriesResource extends JsonResource
+class TodosResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +16,10 @@ class CategoriesResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->id,
-            'name'       => $this->name,
-            'posts_count'=> $this->posts_count,
-            'created_at' => $this->created_at->diffForHumans(),
+            'id' => $this->id,
+            'title' => $this->title,
+            'is_done' => $this->is_done,
+            'completed_at' => $this->completed_at ? Carbon::parse($this->completed_at)->diffForHumans() : null
         ];
     }
 }
