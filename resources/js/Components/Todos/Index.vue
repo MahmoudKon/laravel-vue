@@ -3,7 +3,7 @@
 
     <section class="todoapp">
         <header class="header">
-            <h1>todos</h1>
+            <h1 style="top: -60px !important;">todos</h1>
             <p style="text-align: center; color: red;">{{ validation }}</p>
             <input class="new-todo" autofocus autocomplete="off" v-model="newTodo" @keyup.enter="storeTodo(newTodo)" placeholder="What needs to be done?">
         </header>
@@ -37,11 +37,11 @@
                 <strong>{{ notCompletedCount }}</strong> item left
             </span>
             <ul class="filters">
-                <li><a href="javascript:void(0)" @click="filterCompletedValue = null" :class="{selected: filterCompletedValue === null}">All</a></li>
-                <li><a href="javascript:void(0)" @click="filterCompletedValue = 0"    :class="{selected: filterCompletedValue === 0}">Active</a></li>
-                <li><a href="javascript:void(0)" @click="filterCompletedValue = 1"    :class="{selected: filterCompletedValue === 1}">Completed</a></li>
+                <li><a href="javascript:void(0)" @click.prevent="filterCompletedValue = null" :class="{selected: filterCompletedValue === null}">All</a></li>
+                <li><a href="javascript:void(0)" @click.prevent="filterCompletedValue = 0"    :class="{selected: filterCompletedValue === 0}">Active</a></li>
+                <li><a href="javascript:void(0)" @click.prevent="filterCompletedValue = 1"    :class="{selected: filterCompletedValue === 1}">Completed</a></li>
             </ul>
-            <button class="clear-completed" @click="destroyCompletedTodos()"> Clear completed </button>
+            <button class="clear-completed" @click.prevent="destroyCompletedTodos()"> Clear completed </button>
         </footer>
     </section>
 </template>
