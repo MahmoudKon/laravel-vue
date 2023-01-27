@@ -18,7 +18,7 @@ class TodosResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'is_done' => $this->is_done,
+            'completed' => $this->completed,
             'completed_at' => $this->completed_at ? Carbon::parse($this->completed_at)->diffForHumans() : null
         ];
     }

@@ -10,7 +10,7 @@ class Todo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'is_done', 'completed_at', 'user_id'];
+    protected $fillable = ['title', 'completed', 'completed_at', 'user_id'];
 
     public function user()
     {

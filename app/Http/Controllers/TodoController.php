@@ -14,14 +14,14 @@ class TodoController extends Controller
     public function index()
     {
         $todos = Todo::when( in_array(request()->completed, [0, 1]), function($query) {
-            $query->where('is_done', request()->completed);
+            $query->where('completed', request()->completed);
         })->get();
         return TodosResource::collection( $todos );
     }
 
     public function notCompleted()
     {
-        return Todo::where('is_done', false)->count();
+        return Todo::where('completed', false)->count();
     }
 
     public function store(TodoRequest $request)
@@ -38,8 +38,8 @@ class TodoController extends Controller
 
     public function changeStatus(Todo $todo)
     {
-        $completed_at = $todo->is_done ? null : now();
-        $todo->update(['is_done' => ! $todo->is_done, 'completed_at' => $completed_at]);
+        $completed_at = $todo->completed ? null : now();
+        $todo->update(['completed' => ! $todo->completed, 'completed_at' => $completed_at]);
         return response()->noContent();
     }
 
@@ -51,7 +51,7 @@ class TodoController extends Controller
 
     public function destroyCompleted()
     {
-        Todo::where('is_done', true)->delete();
+        Todo::where('completed', true)->delete();
         return response()->noContent();
     }
 }
