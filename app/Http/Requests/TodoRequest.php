@@ -25,6 +25,7 @@ class TodoRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:5|max:200|unique:todos,title,'.request()->route()->todo?->id,
+            'priority' => 'required|numeric|between:0,3'
         ];
     }
 }

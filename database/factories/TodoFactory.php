@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +17,13 @@ class TodoFactory extends Factory
      */
     public function definition()
     {
+        $is_completed = rand(0, 1);
         return [
-            'title' => $this->faker->text(range(100, 200)),
-            'is_done' => range(0, 1),
-            'user_id' => 1,
+            'title' => $this->faker->text(40),
+            'completed' => $is_completed,
+            'completed_at' => $is_completed ? now() : null,
+            'priority' => rand(0, 3),
+            'user_id' => User::select('id')->inRandomOrder()->first()->id,
         ];
     }
 }

@@ -5,8 +5,8 @@ export default function useTodos()
 {
     const completeAll = ref( false );
     const validation = ref( '' );
-    const newTodo = ref( '' );
-    const editTodo = ref( '' );
+    const newTodo = ref( {title: '', priority: 0} );
+    const editTodo = ref( {title: '', priority: 0} );
     const showTodoInput = ref( '' );
     const todos = ref( {} );
     const notCompletedCount = ref( 0 );
@@ -18,8 +18,8 @@ export default function useTodos()
                 .catch(error => showErrors(error));
     };
 
-    const storeTodo = async (title) => {
-        axios.post('/api/todos', {title: title})
+    const storeTodo = async () => {
+        axios.post('/api/todos', newTodo.value)
                 .then(response => {
                     todos.value.unshift(response.data.data);
                     getNotCompletedTodosCount();
@@ -28,8 +28,8 @@ export default function useTodos()
                 .catch(error => showErrors(error));
     };
 
-    const updateTodo = async (id, title) => {
-        axios.put(`/api/todos/${id}`, {title: title})
+    const updateTodo = async (id) => {
+        axios.put(`/api/todos/${id}`, editTodo.value)
                 .then(response => {
                     todos.value[ getTodoIndex(id) ] = response.data.data;
                     resetVars();
@@ -91,7 +91,9 @@ export default function useTodos()
     }
 
     const resetVars = () => {
-        editTodo.value = showTodoInput.value = validation.value = newTodo.value = validation.value = '';
+        newTodo.value = {title: '', priority: 0};
+        editTodo.value = {title: '', priority: 0};
+        showTodoInput.value = validation.value = validation.value = '';
     }
 
     return { validation, newTodo, editTodo, showTodoInput, notCompletedCount, completeAll, todos, getTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos };

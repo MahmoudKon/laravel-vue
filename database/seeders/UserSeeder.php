@@ -20,5 +20,10 @@ class UserSeeder extends Seeder
             'name'      => 'Mahmoud Kon',
             'password'  => Hash::make(123),
         ]);
+
+        User::updateOrCreate(['email' => 'user@app.com'], [
+            'name'      => 'User Name',
+            'password'  => Hash::make(123),
+        ]);
     }
 }

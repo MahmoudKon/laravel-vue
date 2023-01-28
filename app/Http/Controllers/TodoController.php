@@ -21,7 +21,7 @@ class TodoController extends Controller
 
     public function store(TodoRequest $request)
     {
-        $todo = Todo::create($request->validated() + ['completed' => false]);
+        $todo = Todo::create($request->validated());
         return new TodosResource( $todo );
     }
 

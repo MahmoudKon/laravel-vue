@@ -13,13 +13,33 @@ import PostsEdit from './Components/Posts/Edit.vue';
 import TodoIndex from './Components/Todos/Index.vue';
 
 
+function auth(to, from, next)
+{
+    if (JSON.parse( localStorage.getItem('loggedIn') ))
+        next();
+
+    next('/login');
+}
+
 const routes = [
-    {path: '/dashboard', name: 'dashboard', component: PostsIndex},
-    {path: '/posts', name: 'posts.index', component: PostsIndex},
-    {path: '/posts/create', name: 'posts.create', component: PostsCreate},
-    {path: '/posts/:id/edit', name: 'posts.edit', component: PostsEdit},
-    {path: '/categories', name: 'categories.index', component: CategoriesIndex},
-    {path: '/todos', name: 'todos.index', component: TodoIndex},
+    // {
+    //     path: '/',
+    //     redirect: {name: 'login'},
+    //     children: [
+    //         {path: '/login', name: 'dashloginboard'},
+    //     ]
+    // },
+    {
+        // beforeEnter: auth,
+        children: [
+            {path: '/dashboard', name: 'dashboard', component: PostsIndex},
+            {path: '/posts', name: 'posts.index', component: PostsIndex},
+            {path: '/posts/create', name: 'posts.create', component: PostsCreate},
+            {path: '/posts/:id/edit', name: 'posts.edit', component: PostsEdit},
+            {path: '/categories', name: 'categories.index', component: CategoriesIndex},
+            {path: '/todos', name: 'todos.index', component: TodoIndex},
+        ]
+    }
 ];
 
 const router = createRouter({

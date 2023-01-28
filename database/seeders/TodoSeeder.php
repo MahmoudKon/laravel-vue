@@ -15,6 +15,6 @@ class TodoSeeder extends Seeder
      */
     public function run()
     {
-        Todo::factory(4)->create();
+        Todo::factory(10)->create();
     }
 }

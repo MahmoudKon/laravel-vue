@@ -91,7 +91,8 @@ button {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
-	box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+	box-shadow: inset -5px 0px 10px 2px #cccccc7d;
+	width: 90%;
 }
 
 .main {
@@ -201,6 +202,7 @@ button {
 	display: block;
 	line-height: 1.2;
 	transition: color 0.4s;
+	font-size: 17px;
 }
 
 .todo-list li.completed label {
@@ -346,9 +348,18 @@ html .clear-completed:active {
 .todo .view .completed-date {
     font-size: 11px;
     position: absolute;
-    left: 65px;
-    bottom: 5px;
+    right: 10px;
+    bottom: 1px;
     color: #2faf9d8c;
+}
+
+.todo .view .priority-color {
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	position: absolute;
+	right: 5px;
+	top: 5px;
 }
 
 .todo-list .todo.no-todos { text-align: center }
@@ -356,19 +367,25 @@ html .clear-completed:active {
 
 .editing-section {
     z-index: 1;
-    height: 45px; 
-    width: 100%; 
-    position: absolute; 
-    top: 9px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: #fff;
 }
 
-.editing-section input { display: block; width: 100%; }
+.editing-section input { display: block; width: 90%; }
+.editing-section select {
+	position: absolute;
+	right: 5px;
+	top: 0;
+}
 
 .editing-section .note {
     font-size: 9px;
     color: #858531;
     position: absolute;
-    bottom: 3px;
+    bottom: 9px;
     left: 50%;
     transform: translateX(-50%);
 }

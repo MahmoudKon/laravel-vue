@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('completed')->default(false);
+            $table->unsignedSmallInteger('priority')->default(false)->comment('0: Low | 1: Normal | 2: High | 3: Urgent');
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
