@@ -1,40 +1,8 @@
 <style>
-    .todoapp { margin-top: 95px }
-    .todoapp .header h1 { top: -60px !important }
-    .todoapp .header .errors { text-align: center; color: red }
-    .todoapp .footer { overflow: hidden; height: 40px }
-
-    .todo .view .completed-date {
-        font-size: 10px;
-        position: absolute;
-        right: 5px;
-        top: 8px;
-    }
-
-    .todo-list .todo.no-todos { text-align: center }
-    .todo-list .todo.no-todos .view { padding: 20px; color: #ccc }
-
-    .editing-section {
-        z-index: 1;
-        height: 45px; 
-        width: 100%; 
-        position: absolute; 
-        top: 9px;
-    }
-
-    .editing-section input { display: block; width: 100%; }
-
-    .editing-section .note {
-        font-size: 9px;
-        color: #858531;
-        position: absolute;
-        bottom: 0;
-        right: 5px;
-    }
+    @import url("../../../css/todo.css");
 </style>
 
 <template>
-    <link href="https://unpkg.com/todomvc-app-css@2.1.0/index.css" rel="stylesheet" />
 
     <section class="todoapp">
         <header class="header">
@@ -48,7 +16,7 @@
             <label for="toggle-all" title="Mark all as complete">Mark all as complete</label>
 
             <ul class="todo-list">
-                <li class="todo" v-for="todo in todos" :class="{ completed: todo.completed }">
+                <li class="todo" v-for="todo in listTodos()" :class="{ completed: todo.completed }">
                     <div class="view">
                         <input class="toggle" type="checkbox" :checked="todo.completed" @change="changeTodoStatus(todo.id)">
                         <label @dblclick="editTodo = todo.title; showTodoInput = todo.id">
@@ -65,7 +33,7 @@
                     </p>
                 </li>
 
-                <li class="todo completed no-todos" v-if="todos.length == 0">
+                <li class="todo completed no-todos" v-if="listTodos().length == 0">
                     <div class="view"> No Todos </div>
                 </li>
             </ul>
@@ -92,16 +60,24 @@ import useTodos from '../../Composables/todos';
 export default {
     setup() {
         const filterCompletedValue = ref( null );
-        const { filter, validation, newTodo, editTodo, showTodoInput, notCompletedCount, completeAll, todos, getTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos } = useTodos();
+        const { validation, newTodo, editTodo, showTodoInput, notCompletedCount, completeAll, todos, filterTodos, getTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos } = useTodos();
         document.getElementById('page-title').textContent = 'Todos';
         onMounted(() => getTodos());
 
-        watch(filterCompletedValue, function(current, prev) {
-            filter.value.completed = current;
-            getTodos();
-        });
+        // watch(filterCompletedValue, function(current, prev) {
+        //     if (filterCompletedValue == null) return todos;
+        //     list_todos.value = todos.value.filter(todo => todo.completed == current);
+        //     console.log(list_todos.value);
+        // });
 
-        return { filter, filterCompletedValue, validation, newTodo, showTodoInput, editTodo, notCompletedCount, completeAll, todos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos };
-    }
+        return { filterCompletedValue, validation, newTodo, showTodoInput, editTodo, notCompletedCount, completeAll, todos, filterTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos };
+    },
+
+    methods: {
+        listTodos() {
+            if (this.filterCompletedValue == null) return this.todos;
+            return this.todos.filter(todo => todo.completed == this.filterCompletedValue);
+        }
+    },
 }
 </script>

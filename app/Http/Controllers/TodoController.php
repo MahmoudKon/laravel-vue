@@ -7,16 +7,11 @@ use App\Http\Resources\TodosResource;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\isNull;
-
 class TodoController extends Controller
 {
     public function index()
     {
-        $todos = Todo::when( in_array(request()->completed, [0, 1]), function($query) {
-            $query->where('completed', request()->completed);
-        })->get();
-        return TodosResource::collection( $todos );
+        return TodosResource::collection( Todo::get() );
     }
 
     public function notCompleted()
@@ -26,21 +21,21 @@ class TodoController extends Controller
 
     public function store(TodoRequest $request)
     {
-        Todo::create($request->validated());
-        return response()->noContent();
+        $todo = Todo::create($request->validated() + ['completed' => false]);
+        return new TodosResource( $todo );
     }
 
     public function update(TodoRequest $request, Todo $todo)
     {
         $todo->update($request->validated());
-        return response()->noContent();
+        return new TodosResource( $todo );
     }
 
     public function changeStatus(Todo $todo)
     {
         $completed_at = $todo->completed ? null : now();
         $todo->update(['completed' => !$todo->completed, 'completed_at' => $completed_at]);
-        return response()->noContent();
+        return new TodosResource( $todo );
     }
 
     public function changeAllStatus(Request $request)
@@ -49,7 +44,6 @@ class TodoController extends Controller
         $completed_at = $request->status ? now() : null;
         $update_query->update(['completed' => $request->status, 'completed_at' => $completed_at]);
         return TodosResource::collection( $query->get() );
-        return response()->noContent();
     }
 
     public function destroy(Todo $todo)
