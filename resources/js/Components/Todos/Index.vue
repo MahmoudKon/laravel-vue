@@ -60,7 +60,7 @@
                     <p class="editing-section" v-if="showTodoInput == todo.id">
                         <input autocomplete type="text"
                                 v-model="editTodo" @keyup.enter="updateTodo(todo.id, editTodo)"
-                                @focusout="showTodoInput = editTodo = ''" @keyup.esc="showTodoInput = editTodo = ''">
+                                @focusout="showTodoInput = editTodo = validation = ''" @keyup.esc="showTodoInput = editTodo = validation = ''">
                         <small class="note"> Press <b>ESC</b> or <b>Focusout</b> to cancel editing </small>
                     </p>
                 </li>
