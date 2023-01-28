@@ -36,7 +36,7 @@ class Todo extends Model
 
         self::creating(function($model) {
             $model->completed = $model->completed ?? false;
-            $model->user_id = 1;
+            $model->user_id = auth()->id();
         });
     }
 }

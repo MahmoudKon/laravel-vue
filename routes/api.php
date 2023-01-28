@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('categories', CategoryController::class);
     Route::get('categories-list', [CategoryController::class, 'list']);
@@ -30,4 +26,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('todos/{todo}/change-status', [TodoController::class, 'changeStatus']);
     Route::post('todos/change-all-status', [TodoController::class, 'changeAllStatus']);
     Route::delete('todos/completed/remove', [TodoController::class, 'destroyCompleted']);
+
+    Route::get('/user', function (Request $request) {
+        return response()->json($request->user(), 200);
+    });
 });

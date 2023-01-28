@@ -39,10 +39,9 @@
             </div>
 
             <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <form method="post" action="{{ route('logout') }}">
-                    @csrf
+                {{-- <form method="post" action="{{ route('logout') }}">
                     <button type="submit" class="block text-center w-100 mb-1 mt-2 pointer-events-auto rounded-md bg-red-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-red-500">Logout</button>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>

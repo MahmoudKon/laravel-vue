@@ -62,13 +62,12 @@
 
 <script>
 import { onMounted, reactive } from 'vue';
-import useCategories from '../../Composables/list-categories';
-import usePosts from '../../Composables/posts';
+import useCategories from '../../composables/list-categories';
+import usePosts from '../../composables/posts';
 
 export default {
     setup() {
         const post = reactive({ title: '', content: '', category_id: '', image: '' });
-        document.getElementById('page-title').textContent = 'Create New Post';
         const { categories, getCategories } = useCategories();
         const { errors, is_loading, storePost } = usePosts();
         onMounted(() => { getCategories() });

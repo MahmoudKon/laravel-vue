@@ -1,56 +1,24 @@
 import './bootstrap';
-
-import { createApp } from 'vue/dist/vue.esm-bundler';
-import { TailwindPagination } from 'laravel-vue-pagination';
-import { createRouter, createWebHistory } from 'vue-router';
-import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-import CategoriesIndex from './Components/Categories/Index.vue';
-import PostsIndex from './Components/Posts/Index.vue';
-import PostsCreate from './Components/Posts/Create.vue';
-import PostsEdit from './Components/Posts/Edit.vue';
-import TodoIndex from './Components/Todos/Index.vue';
+import { createApp, onMounted } from 'vue/dist/vue.esm-bundler';
+import { TailwindPagination } from 'laravel-vue-pagination';
+import VueSweetalert2 from 'vue-sweetalert2';
+import router from './routes/Index';
+import CategoriesIndex from './components/categories/Index.vue';
+import PostsIndex from './components/posts/Index.vue';
+import useAuth from './composables/auth';
 
-
-function auth(to, from, next)
-{
-    if (JSON.parse( localStorage.getItem('loggedIn') ))
-        next();
-
-    next('/login');
-}
-
-const routes = [
-    // {
-    //     path: '/',
-    //     redirect: {name: 'login'},
-    //     children: [
-    //         {path: '/login', name: 'dashloginboard'},
-    //     ]
-    // },
-    {
-        // beforeEnter: auth,
-        children: [
-            {path: '/dashboard', name: 'dashboard', component: PostsIndex},
-            {path: '/posts', name: 'posts.index', component: PostsIndex},
-            {path: '/posts/create', name: 'posts.create', component: PostsCreate},
-            {path: '/posts/:id/edit', name: 'posts.edit', component: PostsEdit},
-            {path: '/categories', name: 'categories.index', component: CategoriesIndex},
-            {path: '/todos', name: 'todos.index', component: TodoIndex},
-        ]
+const app = createApp ({
+    setup() {
+        const { getUser } = useAuth();
+        onMounted(getUser);
     }
-];
-
-const router = createRouter({
-    history: createWebHistory(), routes
 });
 
-const app = createApp ( {} );
-
-app.component('categories-index', CategoriesIndex);
 app.use(router);
 app.use(VueSweetalert2);
 app.component('posts-index', PostsIndex);
+app.component('categories-index', CategoriesIndex);
 app.component('Pagination', TailwindPagination);
 app.mount('#app');

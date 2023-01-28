@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,12 @@ Route::get('/', function () {
 });
 
 
+require __DIR__.'/auth.php';
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// Route::get('/{any?}', function () { return view('dashboard'); })->name('dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
     Route::get('/todos', function () { return view('dashboard'); })->name('todos');
@@ -31,4 +38,3 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';

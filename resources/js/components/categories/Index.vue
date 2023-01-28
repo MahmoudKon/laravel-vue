@@ -25,11 +25,10 @@
 
 <script>
     import { onMounted } from 'vue';
-    import useCategories from '../../Composables/categories';
+    import useCategories from '../../composables/categories';
 
     export default {
         setup() {
-            document.getElementById('page-title').textContent = 'Categories';
             const { categories, getCategories } = useCategories();
             onMounted( getCategories );
             return { categories, getCategories };

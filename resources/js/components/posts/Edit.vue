@@ -65,12 +65,11 @@
 <script>
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import useCategories from '../../Composables/list-categories';
-import usePosts from '../../Composables/posts';
+import useCategories from '../../composables/list-categories';
+import usePosts from '../../composables/posts';
 
 export default {
     setup() {
-        document.getElementById('page-title').textContent = 'Edit Post';
         const { categories, getCategories } = useCategories();
         const route = useRoute();
         const { errors, post, is_loading, updatePost, getPost } = usePosts();

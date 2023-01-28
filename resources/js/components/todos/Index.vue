@@ -72,13 +72,12 @@
 
 <script>
 import { ref, onMounted, watch } from 'vue';
-import useTodos from '../../Composables/todos';
+import useTodos from '../../composables/todos';
 
 export default {
     setup() {
         const filterCompletedValue = ref( null );
         const { validation, newTodo, editTodo, showTodoInput, notCompletedCount, completeAll, todos, filterTodos, getTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos } = useTodos();
-        document.getElementById('page-title').textContent = 'Todos';
         onMounted(() => getTodos());
 
         // watch(filterCompletedValue, function(current, prev) {

@@ -100,8 +100,8 @@
 
 <script>
     import { ref, onMounted, watch } from 'vue';
-    import usePosts from '../../Composables/posts';
-    import useCategories from '../../Composables/list-categories';
+    import usePosts from '../../composables/posts';
+    import useCategories from '../../composables/list-categories';
 
     export default {
         setup() {
@@ -111,7 +111,6 @@
             const post_id          = ref( '' );
             const { urlQuery, posts, getPosts, deletePost } = usePosts();
             const { categories, getCategories } = useCategories();
-            document.getElementById('page-title').textContent = 'Posts';
 
             onMounted( () => {
                 getPosts(), getCategories()
