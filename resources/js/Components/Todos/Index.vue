@@ -1,10 +1,45 @@
+<style>
+    .todoapp { margin-top: 95px }
+    .todoapp .header h1 { top: -60px !important }
+    .todoapp .header .errors { text-align: center; color: red }
+    .todoapp .footer { overflow: hidden; height: 40px }
+
+    .todo .view .completed-date {
+        font-size: 10px;
+        position: absolute;
+        right: 5px;
+        top: 8px;
+    }
+
+    .todo-list .todo.no-todos { text-align: center }
+    .todo-list .todo.no-todos .view { padding: 20px; color: #ccc }
+
+    .editing-section {
+        z-index: 1;
+        height: 45px; 
+        width: 100%; 
+        position: absolute; 
+        top: 9px;
+    }
+
+    .editing-section input { display: block; width: 100%; }
+
+    .editing-section .note {
+        font-size: 9px;
+        color: #858531;
+        position: absolute;
+        bottom: 0;
+        right: 5px;
+    }
+</style>
+
 <template>
     <link href="https://unpkg.com/todomvc-app-css@2.1.0/index.css" rel="stylesheet" />
 
-    <section class="todoapp" style="margin-top: 95px;">
+    <section class="todoapp">
         <header class="header">
-            <h1 style="top: -60px !important;">todos</h1>
-            <p style="text-align: center; color: red;">{{ validation }}</p>
+            <h1>todos</h1>
+            <p class="errors">{{ validation }}</p>
             <input class="new-todo" autofocus autocomplete="off" v-model="newTodo" @keyup.enter="storeTodo(newTodo)" placeholder="What needs to be done?">
         </header>
 
@@ -18,22 +53,25 @@
                         <input class="toggle" type="checkbox" :checked="todo.completed" @change="changeTodoStatus(todo.id)">
                         <label @dblclick="editTodo = todo.title; showTodoInput = todo.id">
                             {{ todo.title }}
-                            <small style="font-size: 10px; position: absolute; right: 5px; top: 8px;">{{ todo.completed_at }}</small>
+                            <small class="completed-date">{{ todo.completed_at }}</small>
                         </label>
                         <button class="destroy" @click="destroyTodo(todo.id)"></button>
                     </div>
-                    <input autocomplete type="text" style="z-index: 1; height: 45px; width: 100%; position: absolute; top: 0;" 
-                            v-model="editTodo" v-if="showTodoInput == todo.id" @keyup.enter="updateTodo(todo.id, editTodo)"
-                            @focusout="showTodoInput = editTodo = ''">
+                    <p class="editing-section" v-if="showTodoInput == todo.id">
+                        <input autocomplete type="text"
+                                v-model="editTodo" @keyup.enter="updateTodo(todo.id, editTodo)"
+                                @focusout="showTodoInput = editTodo = ''" @keyup.esc="showTodoInput = editTodo = ''">
+                        <small class="note"> Press <b>ESC</b> or <b>Focusout</b> to cancel editing </small>
+                    </p>
                 </li>
 
-                <li class="todo completed" style="text-align: center;" v-if="todos.length == 0">
-                    <div class="view" style="padding: 20px; color: #ccc;"> No Todos </div>
+                <li class="todo completed no-todos" v-if="todos.length == 0">
+                    <div class="view"> No Todos </div>
                 </li>
             </ul>
         </section>
 
-        <footer class="footer" style="overflow: hidden; height: 40px;">
+        <footer class="footer">
             <span class="todo-count">
                 <strong>{{ notCompletedCount }}</strong> item{{ notCompletedCount > 1 ? 's' : '' }} left
             </span>
