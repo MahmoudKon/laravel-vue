@@ -27,4 +27,5 @@ Route::apiResource('posts', PostController::class);
 Route::apiResource('todos', TodoController::class);
 Route::get('todos/count/not-completed', [TodoController::class, 'notCompleted']);
 Route::post('todos/{todo}/change-status', [TodoController::class, 'changeStatus']);
+Route::post('todos/change-all-status', [TodoController::class, 'changeAllStatus']);
 Route::delete('todos/completed/remove', [TodoController::class, 'destroyCompleted']);

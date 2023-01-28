@@ -3,6 +3,7 @@ import { ref, inject } from 'vue';
 
 export default function useTodos()
 {
+    const completeAll = ref( false );
     const validation = ref( '' );
     const newTodo = ref( '' );
     const editTodo = ref( '' );
@@ -20,7 +21,10 @@ export default function useTodos()
 
     const getNotCompletedTodosCount = async () => {
         axios.get(`/api/todos/count/not-completed`)
-            .then(response => notCompletedCount.value = response.data)
+            .then(response => {
+                notCompletedCount.value = response.data;
+                completeAll.value = notCompletedCount.value == 0;
+            })
             .catch(error => showErrors(error));
     };
 
@@ -28,7 +32,6 @@ export default function useTodos()
         axios.post('/api/todos', {title: title})
             .then(response => {
                 getTodos();
-                getNotCompletedTodosCount();
                 newTodo.value = validation.value = '';
             })
             .catch(error => showErrors(error));
@@ -45,13 +48,19 @@ export default function useTodos()
 
     const changeTodoStatus = async (id) => {
         axios.post(`/api/todos/${id}/change-status`)
-            .then(response => { getTodos(); getNotCompletedTodosCount; })
+            .then(response => getTodos() )
+            .catch(error => showErrors(error));
+    };
+
+    const changeAllTodosStatus = async (status) => {
+        axios.post(`/api/todos/change-all-status`, {status: status})
+            .then(response => getTodos() )
             .catch(error => showErrors(error));
     };
 
     const destroyTodo = async (id) => {
         axios.delete(`/api/todos/${id}`)
-        .then(response => { getTodos(); getNotCompletedTodosCount; })
+        .then(response => getTodos() )
             .catch(error => showErrors(error));
     };
 
@@ -69,5 +78,5 @@ export default function useTodos()
         }
     }
 
-    return { filter, validation, newTodo, editTodo, showTodoInput, notCompletedCount, todos, getTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, destroyCompletedTodos };
+    return { filter, validation, newTodo, editTodo, showTodoInput, notCompletedCount, completeAll, todos, getTodos, storeTodo, updateTodo, destroyTodo, changeTodoStatus, changeAllTodosStatus, destroyCompletedTodos };
 }

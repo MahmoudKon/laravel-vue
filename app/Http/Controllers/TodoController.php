@@ -39,7 +39,16 @@ class TodoController extends Controller
     public function changeStatus(Todo $todo)
     {
         $completed_at = $todo->completed ? null : now();
-        $todo->update(['completed' => ! $todo->completed, 'completed_at' => $completed_at]);
+        $todo->update(['completed' => !$todo->completed, 'completed_at' => $completed_at]);
+        return response()->noContent();
+    }
+
+    public function changeAllStatus(Request $request)
+    {
+        $query = clone $update_query = Todo::query();
+        $completed_at = $request->status ? now() : null;
+        $update_query->update(['completed' => $request->status, 'completed_at' => $completed_at]);
+        return TodosResource::collection( $query->get() );
         return response()->noContent();
     }
 
